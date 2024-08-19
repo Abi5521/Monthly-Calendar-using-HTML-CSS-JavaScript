@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Calendar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calendar">
+        <div class="month">
+            <div class="prev">&#10094;</div>
+            <div class="month-name"></div>
+            <div class="next">&#10095;</div>
+        </div>
+        <div class="weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+        </div>
+        <div class="days"></div>
+    </div>
+    <script>
+        const calendar = document.querySelector('.calendar');
+        const monthName = document.querySelector('.month-name');
+        const daysContainer = document.querySelector('.days');
+        const prevButton = document.querySelector('.prev');
+        const nextButton = document.querySelector('.next');
+
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        let date = new Date();
+        let currentMonth = date.getMonth();
+        let currentYear = date.getFullYear();
+
+        function renderCalendar() {
+            monthName.textContent = `${months[currentMonth]} ${currentYear}`;
+            daysContainer.innerHTML = '';
+
+            let firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            let daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDiv = document.createElement('div');
+                daysContainer.appendChild(emptyDiv);
+            }
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.textContent = i;
+                daysContainer.appendChild(dayDiv);
+            }
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar();
+        });
+
+        renderCalendar();
+
+    </script>
+</body>
+</html>
